@@ -13,9 +13,6 @@
 #import "ColorUtils.h"
 #import "HexColor.h"
 
-#define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
-#define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
-
 @implementation ViewController
 
 #pragma mark - Private
@@ -29,18 +26,6 @@
     
     [_locationManager startUpdatingLocation];
 	[_locationManager startUpdatingHeading];
-}
-
-- (double)calculateAngleFromCurrentLocation:(CLLocationCoordinate2D)current
-                                 toLocation:(CLLocationCoordinate2D)fixed {
-    double longitude = fixed.longitude - current.longitude;
-    
-    double y = sin(longitude) * cos(fixed.latitude);
-    double x = cos(current.latitude) * sin(fixed.latitude) -
-        sin(current.latitude) * cos(fixed.latitude) * cos(longitude);
-    
-    double degrees = RADIANS_TO_DEGREES(atan2(y, x));
-    return degrees < 0 ? degrees = -degrees : 360 - degrees;
 }
 
 #pragma mark - UIViewController
@@ -70,22 +55,13 @@
 {
     HotelCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HotelCell"];
     
-    Hotel *hotel = [_hotels objectAtIndex:indexPath.row];
-    CLLocationCoordinate2D toLocation = { hotel.latitude, hotel.longitude };
-    double degrees = [self calculateAngleFromCurrentLocation:_location.coordinate
-                                                  toLocation:toLocation];
-    double rads = DEGREES_TO_RADIANS(degrees - _heading.trueHeading);
-    
+    cell.hotel = [_hotels objectAtIndex:indexPath.row];
+    cell.location = _location;
     cell.containerView.backgroundColor = [_backgroundColors objectAtIndex:indexPath.row];
     cell.backgroundColor = [UIColor clearColor];
     
-    // rotate compass.
-    CGAffineTransform transform = CGAffineTransformRotate(CGAffineTransformIdentity, rads);
-    cell.compassView.transform = transform;
-    
-    // row content.
+    // update color.
     [cell setSchemeColor:[_backgroundColors objectAtIndex:indexPath.row]];
-    [cell setHotel:[_hotels objectAtIndex:indexPath.row] withCurrentLocation:_location];
     
     return cell;
 }
@@ -114,15 +90,17 @@
         [[[HotelAvailabilityService alloc] initWithDelegate:self] getHotelsNearby:newLocation];
     }
     self.location = newLocation;
-    
-    [_tableView reloadData];
 }
 
 - (void)locationManager:(CLLocationManager *)manager
        didUpdateHeading:(CLHeading *)newHeading
 {
     self.heading = newHeading;
-    [_tableView reloadData];
+    
+    NSDictionary *info = [NSDictionary dictionaryWithObject:_heading forKey:@"heading"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kHeadingUpdatedNotification
+                                                        object:nil
+                                                      userInfo:info];
 }
 
 #pragma mark - HotelAvailabilityServiceDelegate

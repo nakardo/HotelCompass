@@ -7,7 +7,6 @@
 //
 
 #import "AvailableHotels.h"
-#import <CoreLocation/CoreLocation.h>
 
 @protocol HotelAvailabilityServiceDelegate <NSObject>
 

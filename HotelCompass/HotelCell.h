@@ -7,19 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CoreLocation/CoreLocation.h>
 #import "CompassView.h"
 #import "Hotel.h"
 
-@interface HotelCell : UITableViewCell
+static NSString * const kHeadingUpdatedNotification = @"HEADING_UPDATED_NOTIF";
 
-- (void)setSchemeColor:(UIColor *)schemeColor;
-- (void)setHotel:(Hotel *)hotel withCurrentLocation:(CLLocation *)currentLocation;
+@interface HotelCell : UITableViewCell
 
 @property(nonatomic, weak) IBOutlet CompassView *compassView;
 @property(nonatomic, weak) IBOutlet UIView *containerView;
 @property(nonatomic, weak) IBOutlet UILabel *nameLabel;
 @property(nonatomic, weak) IBOutlet UILabel *addressLabel;
 @property(nonatomic, weak) IBOutlet UILabel *distanceLabel;
+
+@property(nonatomic, strong) Hotel *hotel;
+@property(nonatomic, strong) CLLocation *location;
+
+- (void)setSchemeColor:(UIColor *)schemeColor;
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "BaseJSONModel.h"
-#import <CoreLocation/CoreLocation.h>
 
 @protocol Hotel
 @end
