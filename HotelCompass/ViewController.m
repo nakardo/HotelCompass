@@ -51,9 +51,9 @@
     
     self.hotels = [NSArray array];
     
-    self.tableView.backgroundView = nil;
-    self.tableView.backgroundColor = [UIColor blackColor];
-    self.tableView.separatorColor = [UIColor blackColor];
+    _tableView.backgroundView = nil;
+    _tableView.backgroundColor = [UIColor blackColor];
+    _tableView.separatorColor = [UIColor blackColor];
     
     [self startUpdatingLocation];
 }
@@ -115,14 +115,14 @@
     }
     self.location = newLocation;
     
-    [self.tableView reloadData];
+    [_tableView reloadData];
 }
 
 - (void)locationManager:(CLLocationManager *)manager
        didUpdateHeading:(CLHeading *)newHeading
 {
     self.heading = newHeading;
-    [self.tableView reloadData];
+    [_tableView reloadData];
 }
 
 #pragma mark - HotelAvailabilityServiceDelegate
@@ -147,6 +147,10 @@
                                                           toColor:[UIColor colorWithHexString:@"feba02" alpha:1]
                                                         withSteps:[_hotels count]];
     */
+    
+    // we're done.
+    [_activityIndicator stopAnimating];
+    [_tableView reloadData];
 }
 
 - (void)didFailLoadingHotels

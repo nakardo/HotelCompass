@@ -10,8 +10,11 @@
 #import <CoreLocation/CoreLocation.h>
 #import "HotelAvailabilityService.h"
 
-@interface ViewController : UITableViewController
+@interface ViewController : UIViewController
 <UITableViewDataSource, UITableViewDelegate, HotelAvailabilityServiceDelegate, CLLocationManagerDelegate>
+
+@property(nonatomic, weak) IBOutlet UITableView *tableView;
+@property(nonatomic, weak) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @property(nonatomic, strong) CLLocationManager *locationManager;
 @property(nonatomic, strong) CLLocation *location;

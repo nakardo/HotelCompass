@@ -5,76 +5,90 @@
     </dependencies>
     <scenes>
         <!--View Controller-->
-        <scene sceneID="XUm-yE-ifE">
+        <scene sceneID="xah-zv-MHN">
             <objects>
-                <tableViewController id="4L5-o3-U34" customClass="ViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="hFd-RW-KFQ">
+                <viewController id="7EG-Oa-Fbw" customClass="ViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dda-OR-eRj">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HotelCell" rowHeight="122" id="sMe-5C-zGW" customClass="HotelCell">
-                                <rect key="frame" x="0.0" y="22" width="320" height="122"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sMe-5C-zGW" id="Ybg-OU-rif">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="121"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <view contentMode="scaleToFill" id="Hbb-we-gno">
-                                            <rect key="frame" x="5" y="0.0" width="310" height="121"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pocitos Plaza Hotel" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="a5d-Yk-Ha6">
-                                                    <rect key="frame" x="95" y="5" width="210" height="82"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="33"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <view contentMode="scaleToFill" id="6sy-jn-aU2" customClass="CompassView">
-                                                    <rect key="frame" x="5" y="5" width="82" height="82"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                </view>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Benito Blanco 640" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="x4R-Y4-WO5">
-                                                    <rect key="frame" x="95" y="95" width="210" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="17"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22 km" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VHJ-Fc-BHb">
-                                                    <rect key="frame" x="5" y="95" width="82" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="17"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </view>
-                                    </subviews>
-                                </tableViewCellContentView>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="5fx-rG-Ues">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HotelCell" rowHeight="122" id="SRd-N2-LvK" customClass="HotelCell">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="122"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SRd-N2-LvK" id="XTt-uS-6BN">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="121"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" id="BMt-FG-KFG">
+                                                    <rect key="frame" x="5" y="0.0" width="310" height="121"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pocitos Plaza Hotel" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8Gf-Od-ifh">
+                                                            <rect key="frame" x="95" y="5" width="210" height="82"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="33"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <view contentMode="scaleToFill" id="OBO-g1-04g" customClass="CompassView">
+                                                            <rect key="frame" x="5" y="5" width="82" height="82"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                        </view>
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Benito Blanco 640" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ahb-mz-ayA">
+                                                            <rect key="frame" x="95" y="95" width="210" height="21"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="17"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="22 km" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SHe-xH-Yng">
+                                                            <rect key="frame" x="5" y="95" width="82" height="21"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="17"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </view>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <connections>
+                                            <outlet property="addressLabel" destination="Ahb-mz-ayA" id="OTz-9T-TPO"/>
+                                            <outlet property="compassView" destination="OBO-g1-04g" id="IPp-mc-jNX"/>
+                                            <outlet property="containerView" destination="BMt-FG-KFG" id="MUF-JJ-hZM"/>
+                                            <outlet property="distanceLabel" destination="SHe-xH-Yng" id="JUZ-0E-5SQ"/>
+                                            <outlet property="nameLabel" destination="8Gf-Od-ifh" id="wy9-6d-QHH"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <sections/>
                                 <connections>
-                                    <outlet property="addressLabel" destination="x4R-Y4-WO5" id="OUa-ua-wMb"/>
-                                    <outlet property="compassView" destination="6sy-jn-aU2" id="Voa-jG-O4X"/>
-                                    <outlet property="containerView" destination="Hbb-we-gno" id="lWm-ca-6kU"/>
-                                    <outlet property="distanceLabel" destination="VHJ-Fc-BHb" id="H8F-49-w1K"/>
-                                    <outlet property="nameLabel" destination="a5d-Yk-Ha6" id="2zl-oL-yyE"/>
+                                    <outlet property="dataSource" destination="7EG-Oa-Fbw" id="Nm6-sL-Grf"/>
+                                    <outlet property="delegate" destination="7EG-Oa-Fbw" id="X4x-NG-atZ"/>
                                 </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <sections/>
-                        <connections>
-                            <outlet property="dataSource" destination="4L5-o3-U34" id="Ch2-IG-qFk"/>
-                            <outlet property="delegate" destination="4L5-o3-U34" id="xmK-SC-dqW"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="znB-tT-aU8"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="POf-DQ-yrC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                            </tableView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" id="Wua-Ut-86P">
+                                <rect key="frame" x="0.0" y="265" width="320" height="37"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ovF-cM-R2T"/>
+                    <connections>
+                        <outlet property="activityIndicator" destination="Wua-Ut-86P" id="n7x-Go-3mg"/>
+                        <outlet property="tableView" destination="5fx-rG-Ues" id="Jvb-5h-XwR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HYB-2e-97b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="739" y="-89"/>
+            <point key="canvasLocation" x="790" y="-89"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tBD-kS-xUD">
@@ -91,7 +105,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
-                        <segue destination="4L5-o3-U34" kind="relationship" relationship="rootViewController" id="NKX-h4-gh8"/>
+                        <segue destination="7EG-Oa-Fbw" kind="relationship" relationship="rootViewController" id="IkR-wN-NKX"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k5B-g2-07z" userLabel="First Responder" sceneMemberID="firstResponder"/>
