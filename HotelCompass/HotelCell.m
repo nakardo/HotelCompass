@@ -90,8 +90,11 @@
     double rads = DEGREES_TO_RADIANS(degrees - heading.trueHeading);
     
     // rotate compass.
-    CGAffineTransform transform = CGAffineTransformRotate(CGAffineTransformIdentity, rads);
-    _compassView.transform = transform;
+    [UIView animateWithDuration:1.0 animations:^{
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+        [UIView setAnimationBeginsFromCurrentState:YES];
+        _compassView.transform = CGAffineTransformRotate(CGAffineTransformIdentity, rads);
+    }];
 }
 
 @end
