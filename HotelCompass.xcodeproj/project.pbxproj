@@ -30,7 +30,6 @@
 		069F16E91895714000ED0E4A /* BaseJSONModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 069F16E81895714000ED0E4A /* BaseJSONModel.m */; };
 		069F16EB18957B8800ED0E4A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 069F16EA18957B8800ED0E4A /* QuartzCore.framework */; };
 		069F16ED18957B8C00ED0E4A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 069F16EC18957B8C00ED0E4A /* CoreLocation.framework */; };
-		069F16EF189597B000ED0E4A /* Blue_Arrow_Up_Darker.png in Resources */ = {isa = PBXBuildFile; fileRef = 069F16EE189597B000ED0E4A /* Blue_Arrow_Up_Darker.png */; };
 		06E88B0618AABF560060500F /* ColorUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 06E88B0518AABF560060500F /* ColorUtils.m */; };
 		9EE3051FFC3447E6AD1E89F9 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DDA1D4B22774FC19883C323 /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -81,7 +80,6 @@
 		069F16E81895714000ED0E4A /* BaseJSONModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseJSONModel.m; sourceTree = "<group>"; };
 		069F16EA18957B8800ED0E4A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		069F16EC18957B8C00ED0E4A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		069F16EE189597B000ED0E4A /* Blue_Arrow_Up_Darker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Blue_Arrow_Up_Darker.png; sourceTree = "<group>"; };
 		06DA08F618AB114900736C07 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		06E88B0418AABF560060500F /* ColorUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorUtils.h; sourceTree = "<group>"; };
 		06E88B0518AABF560060500F /* ColorUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorUtils.m; sourceTree = "<group>"; };
@@ -162,7 +160,6 @@
 				061F174318934437003A0C14 /* AppDelegate.m */,
 				061F174518934437003A0C14 /* Main.storyboard */,
 				061F174B18934437003A0C14 /* Images.xcassets */,
-				069F16EE189597B000ED0E4A /* Blue_Arrow_Up_Darker.png */,
 				061F173A18934437003A0C14 /* Supporting Files */,
 			);
 			path = HotelCompass;
@@ -330,7 +327,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				061F174C18934437003A0C14 /* Images.xcassets in Resources */,
-				069F16EF189597B000ED0E4A /* Blue_Arrow_Up_Darker.png in Resources */,
 				061F173E18934437003A0C14 /* InfoPlist.strings in Resources */,
 				061F174718934437003A0C14 /* Main.storyboard in Resources */,
 			);
