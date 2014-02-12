@@ -7,13 +7,35 @@
 //
 
 #import "ColorUtils.h"
+#import "UIColor+iOS7Colors.h"
 
 @implementation ColorUtils
+
++ (NSArray *)generateRandomGradientWithSteps:(NSInteger)steps
+{
+    NSArray *colors = @[@[[UIColor iOS7blueGradientStartColor], [UIColor iOS7blueGradientEndColor]],
+                        @[[UIColor iOS7greenGradientStartColor], [UIColor iOS7greenGradientEndColor]],
+                        @[[UIColor iOS7magentaGradientStartColor], [UIColor iOS7magentaGradientEndColor]],
+                        @[[UIColor iOS7orangeGradientStartColor], [UIColor iOS7orangeGradientEndColor]],
+                        @[[UIColor iOS7redGradientStartColor], [UIColor iOS7redGradientEndColor]],
+                        @[[UIColor iOS7tealGradientStartColor], [UIColor iOS7tealGradientEndColor]],
+                        @[[UIColor iOS7violetGradientStartColor], [UIColor iOS7violetGradientEndColor]],
+                        @[[UIColor iOS7yellowGradientStartColor], [UIColor iOS7yellowGradientEndColor]]];
+    
+    NSArray *randomColor = [colors objectAtIndex:arc4random() % [colors count]];
+    
+    return [self generateGradientFromColor:[randomColor objectAtIndex:0]
+                                   toColor:[randomColor objectAtIndex:1]
+                                 withSteps:steps];
+}
 
 /*
  *  http://stackoverflow.com/questions/15032562/ios-find-color-at-point-between-two-colors
  */
-+ (NSArray *)generateGradientFromColor:(UIColor *)fromColor toColor:(UIColor *)toColor withSteps:(NSInteger)steps {
++ (NSArray *)generateGradientFromColor:(UIColor *)fromColor
+                               toColor:(UIColor *)toColor
+                             withSteps:(NSInteger)steps {
+    
     CGFloat tmpImageWidth = 512.0f; // make this bigger or smaller if you need more or less resolution (number of different colors).
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     

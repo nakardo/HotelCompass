@@ -138,10 +138,15 @@
         return d1 < d2 ? NSOrderedAscending : d1 > d2 ? NSOrderedDescending : NSOrderedSame;
     }];
     
-    // generate gradient.
+    // generate random gradient using ios7 theme.
+    self.backgroundColors = [ColorUtils generateRandomGradientWithSteps:[_hotels count]];
+    
+    // default gradient with booking.com colors.
+    /*
     self.backgroundColors = [ColorUtils generateGradientFromColor:[UIColor colorWithHexString:@"0896ff" alpha:1]
                                                           toColor:[UIColor colorWithHexString:@"feba02" alpha:1]
                                                         withSteps:[_hotels count]];
+    */
 }
 
 - (void)didFailLoadingHotels
