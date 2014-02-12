@@ -33,16 +33,7 @@
     // check first if we've a location already.
     NSDictionary *info = notification.userInfo;
     if (_location != nil && [info objectForKey:@"heading"] != nil) {
-        CLHeading *heading = (CLHeading *)[info objectForKey:@"heading"];
-        
-        CLLocationCoordinate2D toLocation = { _hotel.latitude, _hotel.longitude };
-        double degrees = [self calculateAngleFromCurrentLocation:_location.coordinate
-                                                      toLocation:toLocation];
-        double rads = DEGREES_TO_RADIANS(degrees - heading.trueHeading);
-        
-        // rotate compass.
-        CGAffineTransform transform = CGAffineTransformRotate(CGAffineTransformIdentity, rads);
-        _compassView.transform = transform;
+        self.heading = (CLHeading *)[info objectForKey:@"heading"];
     }
 }
 
@@ -90,6 +81,17 @@
     } else {
         _distanceLabel.text = [NSString stringWithFormat:@"%d mts", (int) distance];
     }
+}
+
+- (void)setHeading:(CLHeading *)heading {
+    CLLocationCoordinate2D toLocation = { _hotel.latitude, _hotel.longitude };
+    double degrees = [self calculateAngleFromCurrentLocation:_location.coordinate
+                                                  toLocation:toLocation];
+    double rads = DEGREES_TO_RADIANS(degrees - heading.trueHeading);
+    
+    // rotate compass.
+    CGAffineTransform transform = CGAffineTransformRotate(CGAffineTransformIdentity, rads);
+    _compassView.transform = transform;
 }
 
 @end

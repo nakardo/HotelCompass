@@ -55,13 +55,14 @@
 {
     HotelCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HotelCell"];
     
+    // update content.
     cell.hotel = [_hotels objectAtIndex:indexPath.row];
     cell.location = _location;
-    cell.containerView.backgroundColor = [_backgroundColors objectAtIndex:indexPath.row];
-    cell.backgroundColor = [UIColor clearColor];
+    cell.heading = _heading;
     
-    // update color.
+    // update colors.
     [cell setSchemeColor:[_backgroundColors objectAtIndex:indexPath.row]];
+    cell.backgroundColor = [_backgroundColors objectAtIndex:indexPath.row];
     
     return cell;
 }
@@ -76,8 +77,8 @@
     return 122.0;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    cell.contentView.frame = CGRectMake(0, 0, 55, 80);
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [_tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma mark - CLLocationManagerDelegate
