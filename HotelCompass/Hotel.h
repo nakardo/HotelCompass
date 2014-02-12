@@ -18,6 +18,7 @@
 @property(nonatomic, strong) NSString *hotelName;
 @property(nonatomic, strong) NSString *reviewScore;
 @property(nonatomic, strong) NSString *address;
+@property(nonatomic, strong) NSString *url;
 @property(nonatomic) double latitude;
 @property(nonatomic) double longitude;
 

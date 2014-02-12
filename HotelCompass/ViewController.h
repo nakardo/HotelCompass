@@ -10,7 +10,8 @@
 #import "HotelAvailabilityService.h"
 
 @interface ViewController : UIViewController
-<UITableViewDataSource, UITableViewDelegate, HotelAvailabilityServiceDelegate, CLLocationManagerDelegate>
+<UITableViewDataSource, UITableViewDelegate, HotelAvailabilityServiceDelegate,
+CLLocationManagerDelegate, UIActionSheetDelegate>
 
 @property(nonatomic, weak) IBOutlet UITableView *tableView;
 @property(nonatomic, weak) IBOutlet UIActivityIndicatorView *activityIndicator;

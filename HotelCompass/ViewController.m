@@ -13,7 +13,9 @@
 #import "ColorUtils.h"
 #import "HexColor.h"
 
-@implementation ViewController
+@implementation ViewController {
+    NSIndexPath *selectedIndexPath;
+}
 
 #pragma mark - Private
 
@@ -78,7 +80,14 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [_tableView deselectRowAtIndexPath:indexPath animated:YES];
+    selectedIndexPath = indexPath;
+    
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Where do we go now?"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Nowhere"
+                                         destructiveButtonTitle:nil
+                                              otherButtonTitles:@"See more on Booking.com", @"Drive me there", nil];
+    [sheet showInView:self.view];
 }
 
 #pragma mark - CLLocationManagerDelegate
@@ -102,6 +111,26 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:kHeadingUpdatedNotification
                                                         object:nil
                                                       userInfo:info];
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    Hotel *hotel = [_hotels objectAtIndex:selectedIndexPath.row];
+    if (buttonIndex == 0) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:hotel.url]];
+    } else if (buttonIndex == 1) {
+        NSString *url = [NSString stringWithFormat:@"http://maps.apple.com/?saddr=%f,%f&daddr=%f,%f",
+                         _location.coordinate.latitude, _location.coordinate.longitude,
+                         hotel.latitude, hotel.longitude];
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex {
+    [_tableView deselectRowAtIndexPath:selectedIndexPath
+                              animated:YES];
 }
 
 #pragma mark - HotelAvailabilityServiceDelegate
