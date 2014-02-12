@@ -100,6 +100,11 @@
         [[[HotelAvailabilityService alloc] initWithDelegate:self] getHotelsNearby:newLocation];
     }
     self.location = newLocation;
+    
+    NSDictionary *info = [NSDictionary dictionaryWithObject:_location forKey:@"location"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kLocationUpdatedNotification
+                                                        object:nil
+                                                      userInfo:info];
 }
 
 - (void)locationManager:(CLLocationManager *)manager

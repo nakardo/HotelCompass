@@ -28,9 +28,16 @@
     return degrees < 0 ? degrees = -degrees : 360 - degrees;
 }
 
+- (void)updateLocation:(NSNotification *)notification {
+    NSDictionary *info = notification.userInfo;
+    if ([info objectForKey:@"location"] != nil) {
+        self.location = (CLLocation *)[info objectForKey:@"location"];
+    }
+}
+
 - (void)updateHeading:(NSNotification *)notification {
     
-    // check first if we've a location already.
+    // make sure we've a location already since it's required to calculate heading direction.
     NSDictionary *info = notification.userInfo;
     if (_location != nil && [info objectForKey:@"heading"] != nil) {
         self.heading = (CLHeading *)[info objectForKey:@"heading"];
@@ -54,6 +61,10 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if ((self = [super initWithCoder:aDecoder])) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(updateLocation:)
+                                                     name:kLocationUpdatedNotification
+                                                   object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(updateHeading:)
                                                      name:kHeadingUpdatedNotification

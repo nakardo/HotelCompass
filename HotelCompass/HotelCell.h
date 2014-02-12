@@ -10,6 +10,7 @@
 #import "CompassView.h"
 #import "Hotel.h"
 
+static NSString * const kLocationUpdatedNotification = @"LOCATION_UPDATED_NOTIF";
 static NSString * const kHeadingUpdatedNotification = @"HEADING_UPDATED_NOTIF";
 
 @interface HotelCell : UITableViewCell
