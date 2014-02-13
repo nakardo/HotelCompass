@@ -183,20 +183,6 @@
     
     self.secondaryColors = tmpSecondaryColors;
     self.secondaryGradient = tmpSecondaryGradient;
-    
-    // show actions.
-    /*
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Where do we go now?"
-                                                       delegate:self
-                                              cancelButtonTitle:@"Nowhere"
-                                         destructiveButtonTitle:nil
-                                              otherButtonTitles:@"See more on Booking.com", @"Drive me there", nil];
-    [sheet showInView:self.view];
-    */
-}
-
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    return;
 }
 
 #pragma mark - CLLocationManagerDelegate
