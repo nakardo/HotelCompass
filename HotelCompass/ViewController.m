@@ -13,9 +13,19 @@
 #import "ColorUtils.h"
 #import "HexColor.h"
 
-@implementation ViewController {
-    NSIndexPath *selectedIndexPath;
-}
+@interface ViewController ()
+
+@property(nonatomic, strong) CLLocationManager *locationManager;
+@property(nonatomic, strong) CLLocation *location;
+@property(nonatomic, strong) CLHeading *heading;
+@property(nonatomic, strong) NSArray *hotels;
+@property(nonatomic, strong) NSIndexPath *selectedIndexPath;
+@property(nonatomic, strong) NSArray *backgroundColors;
+@property(nonatomic, strong) NSArray *alternateColors;
+
+@end
+
+@implementation ViewController
 
 #pragma mark - Private
 
@@ -80,7 +90,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    selectedIndexPath = indexPath;
+    _selectedIndexPath = indexPath;
     
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Where do we go now?"
                                                        delegate:self
@@ -121,7 +131,7 @@
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    Hotel *hotel = [_hotels objectAtIndex:selectedIndexPath.row];
+    Hotel *hotel = [_hotels objectAtIndex:_selectedIndexPath.row];
     if (buttonIndex == 0) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:hotel.url]];
     } else if (buttonIndex == 1) {
@@ -134,7 +144,7 @@
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    [_tableView deselectRowAtIndexPath:selectedIndexPath
+    [_tableView deselectRowAtIndexPath:_selectedIndexPath
                               animated:YES];
 }
 
