@@ -19,7 +19,6 @@
 @property(nonatomic, strong) CLLocation *location;
 @property(nonatomic, strong) CLHeading *heading;
 @property(nonatomic, strong) NSArray *hotels;
-@property(nonatomic, strong) NSIndexPath *selectedIndexPath;
 @property(nonatomic, strong) NSArray *primaryColors;
 @property(nonatomic, strong) NSArray *primaryGradient;
 @property(nonatomic, strong) NSArray *secondaryColors;
@@ -55,6 +54,71 @@
     cell.selectedBackgroundView.backgroundColor = [secondaryGradient objectAtIndex:row];
 }
 
+- (void)performRowsAnimation {
+    NSIndexPath *indexPath = [_tableView indexPathForSelectedRow];
+    
+    // generate temporary secondary colors to keep animation consistent.
+    NSArray *tmpSecondaryColors = [ColorUtils generateGradientColorsAndExclude:_secondaryColors];
+    NSArray *tmpSecondaryGradient = [ColorUtils generateGradientFromColor:[_secondaryColors objectAtIndex:0]
+                                                                  toColor:[_secondaryColors objectAtIndex:1]
+                                                                withSteps:[_hotels count]];
+    
+    // set new color for selected row, and remove selection inmediately.
+    HotelCell *selectedCell = (HotelCell *)[_tableView cellForRowAtIndexPath:indexPath];
+    [self updateRow:selectedCell atPosition:indexPath.row
+                        withPrimaryGradient:_secondaryGradient
+                       andSecondaryGradient:tmpSecondaryGradient];
+    [_tableView deselectRowAtIndexPath:indexPath animated:NO];
+    
+    // make animation on group of two rows on opposite sides.
+    float delay = 0; int i = 1;
+    BOOL hasMoreGroupsToAnimate = YES;
+    while (hasMoreGroupsToAnimate) {
+        
+        // top row.
+        HotelCell *topCell = nil;
+        if (indexPath.row - i > -1) {
+            NSIndexPath *idx = [NSIndexPath indexPathForRow:indexPath.row - i inSection:indexPath.section];
+            topCell = (HotelCell *)[_tableView cellForRowAtIndexPath:idx];
+        }
+        
+        // top row.
+        HotelCell *bottomCell = nil;
+        if (indexPath.row + i < [_hotels count]) {
+            NSIndexPath *idx = [NSIndexPath indexPathForRow:indexPath.row + i inSection:indexPath.section];
+            bottomCell = (HotelCell *)[_tableView cellForRowAtIndexPath:idx];
+        }
+        
+        // run animation for current group.
+        [UIView animateWithDuration:0.5
+                              delay:delay
+                            options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut
+                         animations:^{
+                             if (topCell != nil) {
+                                 [self updateRow:topCell atPosition:indexPath.row - i
+                                                withPrimaryGradient:_secondaryGradient
+                                               andSecondaryGradient:tmpSecondaryGradient];
+                             }
+                             
+                             if (bottomCell != nil) {
+                                 [self updateRow:bottomCell atPosition:indexPath.row + i
+                                                   withPrimaryGradient:_secondaryGradient
+                                                  andSecondaryGradient:tmpSecondaryGradient];
+                             }
+                         }
+                         completion:nil];
+        delay+=.1;
+        i++; hasMoreGroupsToAnimate = topCell != nil || bottomCell != nil;
+    }
+    
+    // swap colors.
+    self.primaryColors = _secondaryColors;
+    self.primaryGradient = _secondaryGradient;
+    
+    self.secondaryColors = tmpSecondaryColors;
+    self.secondaryGradient = tmpSecondaryGradient;
+}
+
 #pragma mark - UIViewController
 
 - (void)viewDidLoad
@@ -73,7 +137,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-
+    if ([_hotels count] > 0) [self performRowsAnimation];
 }
 
 - (void)didReceiveMemoryWarning
@@ -118,71 +182,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 122.0;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    _selectedIndexPath = indexPath;
-    
-    // generate temporary secondary colors to keep animation consistent.
-    NSArray *tmpSecondaryColors = [ColorUtils generateGradientColorsAndExclude:_secondaryColors];
-    NSArray *tmpSecondaryGradient = [ColorUtils generateGradientFromColor:[_secondaryColors objectAtIndex:0]
-                                                                  toColor:[_secondaryColors objectAtIndex:1]
-                                                                withSteps:[_hotels count]];
-    
-    // set new color for selected row, and remove selection inmediately.
-    HotelCell *selectedCell = (HotelCell *)[_tableView cellForRowAtIndexPath:_selectedIndexPath];
-    [self updateRow:selectedCell atPosition:_selectedIndexPath.row
-                        withPrimaryGradient:_secondaryGradient
-                       andSecondaryGradient:tmpSecondaryGradient];
-    [_tableView deselectRowAtIndexPath:_selectedIndexPath animated:NO];
-    
-    // make animation on group of two rows on opposite sides.
-    float delay = 0; int i = 1;
-    BOOL hasMoreGroupsToAnimate = YES;
-    while (hasMoreGroupsToAnimate) {
-        
-        // top row.
-        HotelCell *topCell = nil;
-        if (_selectedIndexPath.row - i > -1) {
-            NSIndexPath *idx = [NSIndexPath indexPathForRow:_selectedIndexPath.row - i inSection:_selectedIndexPath.section];
-            topCell = (HotelCell *)[_tableView cellForRowAtIndexPath:idx];
-        }
-        
-        // top row.
-        HotelCell *bottomCell = nil;
-        if (_selectedIndexPath.row + i < [_hotels count]) {
-            NSIndexPath *idx = [NSIndexPath indexPathForRow:_selectedIndexPath.row + i inSection:_selectedIndexPath.section];
-            bottomCell = (HotelCell *)[_tableView cellForRowAtIndexPath:idx];
-        }
-        
-        // run animation for current group.
-        [UIView animateWithDuration:0.5
-                              delay:delay
-                            options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut
-                         animations:^{
-                             if (topCell != nil) {
-                                 [self updateRow:topCell atPosition:_selectedIndexPath.row - i
-                                                withPrimaryGradient:_secondaryGradient
-                                               andSecondaryGradient:tmpSecondaryGradient];
-                             }
-                             
-                             if (bottomCell != nil) {
-                                 [self updateRow:bottomCell atPosition:_selectedIndexPath.row + i
-                                                   withPrimaryGradient:_secondaryGradient
-                                                  andSecondaryGradient:tmpSecondaryGradient];
-                             }
-                         }
-                         completion:nil];
-        delay+=.1;
-        i++; hasMoreGroupsToAnimate = topCell != nil || bottomCell != nil;
-    }
-    
-    // swap colors.
-    self.primaryColors = _secondaryColors;
-    self.primaryGradient = _secondaryGradient;
-    
-    self.secondaryColors = tmpSecondaryColors;
-    self.secondaryGradient = tmpSecondaryGradient;
 }
 
 #pragma mark - CLLocationManagerDelegate
