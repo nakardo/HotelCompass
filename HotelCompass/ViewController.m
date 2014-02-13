@@ -20,8 +20,10 @@
 @property(nonatomic, strong) CLHeading *heading;
 @property(nonatomic, strong) NSArray *hotels;
 @property(nonatomic, strong) NSIndexPath *selectedIndexPath;
-@property(nonatomic, strong) NSArray *backgroundColors;
-@property(nonatomic, strong) NSArray *alternateColors;
+@property(nonatomic, strong) NSArray *primaryColors;
+@property(nonatomic, strong) NSArray *primaryGradient;
+@property(nonatomic, strong) NSArray *secondaryColors;
+@property(nonatomic, strong) NSArray *secondaryGradient;
 
 @end
 
@@ -73,8 +75,8 @@
     cell.heading = _heading;
     
     // update colors.
-    [cell setSchemeColor:[_backgroundColors objectAtIndex:indexPath.row]];
-    cell.backgroundColor = [_backgroundColors objectAtIndex:indexPath.row];
+    [cell setSchemeColor:[_primaryGradient objectAtIndex:indexPath.row]];
+    cell.backgroundColor = [_primaryGradient objectAtIndex:indexPath.row];
     
     return cell;
 }
@@ -92,6 +94,34 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     _selectedIndexPath = indexPath;
     
+    float delay = 0;
+    
+    NSArray *indexPaths = [_tableView indexPathsForVisibleRows];
+    for (NSIndexPath *theIndexPath in indexPaths) {
+        HotelCell *cell = (HotelCell *)[_tableView cellForRowAtIndexPath:theIndexPath];
+        
+        // animate.
+        [UIView animateWithDuration:0.5
+                              delay:delay
+                            options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionCurveEaseOut|UIViewAnimationOptionTransitionFlipFromRight
+                         animations:^{
+                             [cell setSchemeColor:[_secondaryGradient objectAtIndex:indexPath.row]];
+                             cell.backgroundColor = [_secondaryGradient objectAtIndex:indexPath.row];
+                         }
+                         completion:nil];
+        delay+=.1;
+    }
+    
+    // swap colors.
+    self.primaryColors = _secondaryColors;
+    self.primaryGradient = _secondaryGradient;
+    
+    self.secondaryColors = [ColorUtils generateGradientColorsAndExclude:_secondaryColors];
+    self.secondaryGradient = [ColorUtils generateGradientFromColor:[_secondaryColors objectAtIndex:0]
+                                                           toColor:[_secondaryColors objectAtIndex:1]
+                                                         withSteps:[_hotels count]];
+    
+    // show actions.
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Where do we go now?"
                                                        delegate:self
                                               cancelButtonTitle:@"Nowhere"
@@ -162,7 +192,15 @@
     }];
     
     // generate random gradient using ios7 theme.
-    self.backgroundColors = [ColorUtils generateRandomGradientWithSteps:[_hotels count]];
+    self.primaryColors = [ColorUtils generateGradientColors];
+    self.primaryGradient = [ColorUtils generateGradientFromColor:[_primaryColors objectAtIndex:0]
+                                                         toColor:[_primaryColors objectAtIndex:1]
+                                                       withSteps:[_hotels count]];
+    
+    self.secondaryColors = [ColorUtils generateGradientColorsAndExclude:_primaryColors];
+    self.secondaryGradient = [ColorUtils generateGradientFromColor:[_secondaryColors objectAtIndex:0]
+                                                           toColor:[_secondaryColors objectAtIndex:1]
+                                                         withSteps:[_hotels count]];
     
     // default gradient with booking.com colors.
     /*

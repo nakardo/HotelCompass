@@ -10,7 +10,8 @@
 
 @interface ColorUtils : NSObject
 
-+ (NSArray *)generateRandomGradientWithSteps:(NSInteger)steps;
++ (NSArray *)generateGradientColors;
++ (NSArray *)generateGradientColorsAndExclude:(NSArray *)excludedColors;
 + (NSArray *)generateGradientFromColor:(UIColor *)fromColor
                                toColor:(UIColor *)toColor
                              withSteps:(NSInteger)steps;

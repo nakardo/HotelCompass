@@ -11,22 +11,29 @@
 
 @implementation ColorUtils
 
-+ (NSArray *)generateRandomGradientWithSteps:(NSInteger)steps
++ (NSArray *)generateGradientColorsAndExclude:(NSArray *)excludedColors
 {
-    NSArray *colors = @[@[[UIColor iOS7blueGradientStartColor], [UIColor iOS7blueGradientEndColor]],
-                        @[[UIColor iOS7greenGradientStartColor], [UIColor iOS7greenGradientEndColor]],
-                        @[[UIColor iOS7magentaGradientStartColor], [UIColor iOS7magentaGradientEndColor]],
-                        @[[UIColor iOS7orangeGradientStartColor], [UIColor iOS7orangeGradientEndColor]],
-                        @[[UIColor iOS7redGradientStartColor], [UIColor iOS7redGradientEndColor]],
-                        @[[UIColor iOS7tealGradientStartColor], [UIColor iOS7tealGradientEndColor]],
-                        @[[UIColor iOS7violetGradientStartColor], [UIColor iOS7violetGradientEndColor]],
-                        @[[UIColor iOS7yellowGradientStartColor], [UIColor iOS7yellowGradientEndColor]]];
+    NSMutableSet *colorSet = [[NSMutableSet alloc] initWithArray:@[
+        @[[UIColor iOS7blueGradientStartColor], [UIColor iOS7blueGradientEndColor]],
+        @[[UIColor iOS7greenGradientStartColor], [UIColor iOS7greenGradientEndColor]],
+        @[[UIColor iOS7magentaGradientStartColor], [UIColor iOS7magentaGradientEndColor]],
+        @[[UIColor iOS7orangeGradientStartColor], [UIColor iOS7orangeGradientEndColor]],
+        @[[UIColor iOS7redGradientStartColor], [UIColor iOS7redGradientEndColor]],
+        @[[UIColor iOS7silverGradientStartColor], [UIColor iOS7tealGradientEndColor]],
+        @[[UIColor iOS7tealGradientStartColor], [UIColor iOS7tealGradientEndColor]],
+        @[[UIColor iOS7violetGradientStartColor], [UIColor iOS7violetGradientEndColor]],
+        @[[UIColor iOS7yellowGradientStartColor], [UIColor iOS7yellowGradientEndColor]]]
+    ];
     
-    NSArray *randomColor = [colors objectAtIndex:arc4random() % [colors count]];
+    if (excludedColors != nil) {
+        [colorSet removeObject:excludedColors];
+    }
     
-    return [self generateGradientFromColor:[randomColor objectAtIndex:0]
-                                   toColor:[randomColor objectAtIndex:1]
-                                 withSteps:steps];
+    return [[colorSet allObjects] objectAtIndex:arc4random() % [colorSet count]];
+}
+
++ (NSArray *)generateGradientColors {
+    return [self generateGradientColorsAndExclude:nil];
 }
 
 /*
