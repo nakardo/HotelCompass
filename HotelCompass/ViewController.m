@@ -11,7 +11,7 @@
 #import "HotelCell.h"
 #import "Colours.h"
 #import "ColorUtils.h"
-#import "HexColor.h"
+#import "DetailViewController.h"
 
 @interface ViewController ()
 
@@ -42,11 +42,26 @@
 	[_locationManager startUpdatingHeading];
 }
 
+- (void)updateRow:(HotelCell *)cell atPosition:(NSInteger)row
+                           withPrimaryGradient:(NSArray *)primaryGradient
+                          andSecondaryGradient:(NSArray *)secondaryGradient
+{
+    // primary colors.
+    [cell setSchemeColor:[primaryGradient objectAtIndex:row]];
+    cell.backgroundColor = [primaryGradient objectAtIndex:row];
+    
+    // secondary colors.
+    cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.bounds];
+    cell.selectedBackgroundView.backgroundColor = [secondaryGradient objectAtIndex:row];
+}
+
 #pragma mark - UIViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.navigationItem.title = @"Hotels Nearby";
     
     self.hotels = [NSArray array];
     
@@ -57,10 +72,23 @@
     [self startUpdatingLocation];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    DetailViewController *controller = [segue destinationViewController];
+    
+    NSInteger row = [_tableView indexPathForSelectedRow].row;
+    controller.hotel = [_hotels objectAtIndex:row];
+    controller.primaryColor = [_primaryGradient objectAtIndex:row];
+    controller.secondaryColor = [_secondaryGradient objectAtIndex:row];
 }
 
 #pragma mark - UITableViewDataSource
@@ -69,14 +97,15 @@
 {
     HotelCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HotelCell"];
     
-    // update content.
+    // content.
     cell.hotel = [_hotels objectAtIndex:indexPath.row];
     cell.location = _location;
     cell.heading = _heading;
     
     // update colors.
-    [cell setSchemeColor:[_primaryGradient objectAtIndex:indexPath.row]];
-    cell.backgroundColor = [_primaryGradient objectAtIndex:indexPath.row];
+    [self updateRow:cell atPosition:indexPath.row
+                withPrimaryGradient:_primaryGradient
+               andSecondaryGradient:_secondaryGradient];
     
     return cell;
 }
@@ -94,40 +123,80 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     _selectedIndexPath = indexPath;
     
-    float delay = 0;
+    // generate temporary secondary colors to keep animation consistent.
+    NSArray *tmpSecondaryColors = [ColorUtils generateGradientColorsAndExclude:_secondaryColors];
+    NSArray *tmpSecondaryGradient = [ColorUtils generateGradientFromColor:[_secondaryColors objectAtIndex:0]
+                                                                  toColor:[_secondaryColors objectAtIndex:1]
+                                                                withSteps:[_hotels count]];
     
-    NSArray *indexPaths = [_tableView indexPathsForVisibleRows];
-    for (NSIndexPath *theIndexPath in indexPaths) {
-        HotelCell *cell = (HotelCell *)[_tableView cellForRowAtIndexPath:theIndexPath];
+    // set new color for selected row, and remove selection inmediately.
+    HotelCell *selectedCell = (HotelCell *)[_tableView cellForRowAtIndexPath:_selectedIndexPath];
+    [self updateRow:selectedCell atPosition:_selectedIndexPath.row
+                        withPrimaryGradient:_secondaryGradient
+                       andSecondaryGradient:tmpSecondaryGradient];
+    [_tableView deselectRowAtIndexPath:_selectedIndexPath animated:NO];
+    
+    // make animation on group of two rows on opposite sides.
+    float delay = 0; int i = 1;
+    BOOL hasMoreGroupsToAnimate = YES;
+    while (hasMoreGroupsToAnimate) {
         
-        // animate.
+        // top row.
+        HotelCell *topCell = nil;
+        if (_selectedIndexPath.row - i > -1) {
+            NSIndexPath *idx = [NSIndexPath indexPathForRow:_selectedIndexPath.row - i inSection:_selectedIndexPath.section];
+            topCell = (HotelCell *)[_tableView cellForRowAtIndexPath:idx];
+        }
+        
+        // top row.
+        HotelCell *bottomCell = nil;
+        if (_selectedIndexPath.row + i < [_hotels count]) {
+            NSIndexPath *idx = [NSIndexPath indexPathForRow:_selectedIndexPath.row + i inSection:_selectedIndexPath.section];
+            bottomCell = (HotelCell *)[_tableView cellForRowAtIndexPath:idx];
+        }
+        
+        // run animation for current group.
         [UIView animateWithDuration:0.5
                               delay:delay
-                            options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionCurveEaseOut|UIViewAnimationOptionTransitionFlipFromRight
+                            options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut
                          animations:^{
-                             [cell setSchemeColor:[_secondaryGradient objectAtIndex:indexPath.row]];
-                             cell.backgroundColor = [_secondaryGradient objectAtIndex:indexPath.row];
+                             if (topCell != nil) {
+                                 [self updateRow:topCell atPosition:_selectedIndexPath.row - i
+                                                withPrimaryGradient:_secondaryGradient
+                                               andSecondaryGradient:tmpSecondaryGradient];
+                             }
+                             
+                             if (bottomCell != nil) {
+                                 [self updateRow:bottomCell atPosition:_selectedIndexPath.row + i
+                                                   withPrimaryGradient:_secondaryGradient
+                                                  andSecondaryGradient:tmpSecondaryGradient];
+                             }
                          }
                          completion:nil];
         delay+=.1;
+        i++; hasMoreGroupsToAnimate = topCell != nil || bottomCell != nil;
     }
     
     // swap colors.
     self.primaryColors = _secondaryColors;
     self.primaryGradient = _secondaryGradient;
     
-    self.secondaryColors = [ColorUtils generateGradientColorsAndExclude:_secondaryColors];
-    self.secondaryGradient = [ColorUtils generateGradientFromColor:[_secondaryColors objectAtIndex:0]
-                                                           toColor:[_secondaryColors objectAtIndex:1]
-                                                         withSteps:[_hotels count]];
+    self.secondaryColors = tmpSecondaryColors;
+    self.secondaryGradient = tmpSecondaryGradient;
     
     // show actions.
+    /*
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Where do we go now?"
                                                        delegate:self
                                               cancelButtonTitle:@"Nowhere"
                                          destructiveButtonTitle:nil
                                               otherButtonTitles:@"See more on Booking.com", @"Drive me there", nil];
     [sheet showInView:self.view];
+    */
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    return;
 }
 
 #pragma mark - CLLocationManagerDelegate
@@ -158,26 +227,6 @@
                                                       userInfo:info];
 }
 
-#pragma mark - UIActionSheetDelegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
-    Hotel *hotel = [_hotels objectAtIndex:_selectedIndexPath.row];
-    if (buttonIndex == 0) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:hotel.url]];
-    } else if (buttonIndex == 1) {
-        NSString *url = [NSString stringWithFormat:@"http://maps.apple.com/?saddr=%f,%f&daddr=%f,%f",
-                         _location.coordinate.latitude, _location.coordinate.longitude,
-                         hotel.latitude, hotel.longitude];
-        
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-    }
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex {
-    [_tableView deselectRowAtIndexPath:_selectedIndexPath
-                              animated:YES];
-}
-
 #pragma mark - HotelAvailabilityServiceDelegate
 
 - (void)didLoadHotels:(AvailableHotels *)theHotels
@@ -202,13 +251,6 @@
                                                            toColor:[_secondaryColors objectAtIndex:1]
                                                          withSteps:[_hotels count]];
     
-    // default gradient with booking.com colors.
-    /*
-    self.backgroundColors = [ColorUtils generateGradientFromColor:[UIColor colorWithHexString:@"0896ff" alpha:1]
-                                                          toColor:[UIColor colorWithHexString:@"feba02" alpha:1]
-                                                        withSteps:[_hotels count]];
-    */
-    
     // we're done.
     [_activityIndicator stopAnimating];
     [_tableView reloadData];
@@ -216,7 +258,7 @@
 
 - (void)didFailLoadingHotels
 {
-    return;
+    NSLog(@"Unable to load hotels, please check API call response.");
 }
 
 @end

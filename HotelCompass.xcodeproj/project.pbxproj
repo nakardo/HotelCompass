@@ -23,6 +23,8 @@
 		061F175F18934437003A0C14 /* HotelCompassTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F175E18934437003A0C14 /* HotelCompassTests.m */; };
 		061F176A189346A6003A0C14 /* HotelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F1769189346A6003A0C14 /* HotelCell.m */; };
 		061F176D1893473C003A0C14 /* CompassView.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F176C1893473C003A0C14 /* CompassView.m */; };
+		06336BA718AD47DD001CA042 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06336BA618AD47DD001CA042 /* DetailViewController.m */; };
+		06336BA918AD4FC2001CA042 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06336BA818AD4FC2001CA042 /* MapKit.framework */; };
 		06734CE31894232C0092EADB /* BookingRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 06734CE21894232C0092EADB /* BookingRequestManager.m */; };
 		06734CEC189434010092EADB /* HotelAvailabilityService.m in Sources */ = {isa = PBXBuildFile; fileRef = 06734CEB189434010092EADB /* HotelAvailabilityService.m */; };
 		069F16DE189566AA00ED0E4A /* AvailableHotels.m in Sources */ = {isa = PBXBuildFile; fileRef = 069F16DD189566AA00ED0E4A /* AvailableHotels.m */; };
@@ -68,6 +70,9 @@
 		061F1769189346A6003A0C14 /* HotelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotelCell.m; sourceTree = "<group>"; };
 		061F176B1893473C003A0C14 /* CompassView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompassView.h; sourceTree = "<group>"; };
 		061F176C1893473C003A0C14 /* CompassView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompassView.m; sourceTree = "<group>"; };
+		06336BA518AD47DD001CA042 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		06336BA618AD47DD001CA042 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		06336BA818AD4FC2001CA042 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		06734CE11894232C0092EADB /* BookingRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookingRequestManager.h; sourceTree = "<group>"; };
 		06734CE21894232C0092EADB /* BookingRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookingRequestManager.m; sourceTree = "<group>"; };
 		06734CEA189434010092EADB /* HotelAvailabilityService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotelAvailabilityService.h; sourceTree = "<group>"; };
@@ -92,6 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06336BA918AD4FC2001CA042 /* MapKit.framework in Frameworks */,
 				069F16ED18957B8C00ED0E4A /* CoreLocation.framework in Frameworks */,
 				069F16EB18957B8800ED0E4A /* QuartzCore.framework in Frameworks */,
 				061F173618934437003A0C14 /* CoreGraphics.framework in Frameworks */,
@@ -137,6 +143,7 @@
 		061F173218934437003A0C14 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				06336BA818AD4FC2001CA042 /* MapKit.framework */,
 				069F16EC18957B8C00ED0E4A /* CoreLocation.framework */,
 				069F16EA18957B8800ED0E4A /* QuartzCore.framework */,
 				061F173318934437003A0C14 /* Foundation.framework */,
@@ -199,6 +206,8 @@
 			children = (
 				061F174818934437003A0C14 /* ViewController.h */,
 				061F174918934437003A0C14 /* ViewController.m */,
+				06336BA518AD47DD001CA042 /* DetailViewController.h */,
+				06336BA618AD47DD001CA042 /* DetailViewController.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -391,6 +400,7 @@
 				061F174018934437003A0C14 /* main.m in Sources */,
 				069F16E3189570DE00ED0E4A /* Hotel.m in Sources */,
 				061F176D1893473C003A0C14 /* CompassView.m in Sources */,
+				06336BA718AD47DD001CA042 /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
