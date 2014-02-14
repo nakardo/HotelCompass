@@ -25,6 +25,8 @@
 		061F176D1893473C003A0C14 /* CompassView.m in Sources */ = {isa = PBXBuildFile; fileRef = 061F176C1893473C003A0C14 /* CompassView.m */; };
 		06336BA718AD47DD001CA042 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06336BA618AD47DD001CA042 /* DetailViewController.m */; };
 		06336BA918AD4FC2001CA042 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06336BA818AD4FC2001CA042 /* MapKit.framework */; };
+		06336BB018ADA483001CA042 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 06336BAE18ADA483001CA042 /* Icon.png */; };
+		06336BB118ADA483001CA042 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06336BAF18ADA483001CA042 /* Icon@2x.png */; };
 		06734CE31894232C0092EADB /* BookingRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 06734CE21894232C0092EADB /* BookingRequestManager.m */; };
 		06734CEC189434010092EADB /* HotelAvailabilityService.m in Sources */ = {isa = PBXBuildFile; fileRef = 06734CEB189434010092EADB /* HotelAvailabilityService.m */; };
 		069F16DE189566AA00ED0E4A /* AvailableHotels.m in Sources */ = {isa = PBXBuildFile; fileRef = 069F16DD189566AA00ED0E4A /* AvailableHotels.m */; };
@@ -73,6 +75,8 @@
 		06336BA518AD47DD001CA042 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		06336BA618AD47DD001CA042 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		06336BA818AD4FC2001CA042 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		06336BAE18ADA483001CA042 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		06336BAF18ADA483001CA042 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		06734CE11894232C0092EADB /* BookingRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookingRequestManager.h; sourceTree = "<group>"; };
 		06734CE21894232C0092EADB /* BookingRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookingRequestManager.m; sourceTree = "<group>"; };
 		06734CEA189434010092EADB /* HotelAvailabilityService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotelAvailabilityService.h; sourceTree = "<group>"; };
@@ -179,6 +183,8 @@
 				061F173C18934437003A0C14 /* InfoPlist.strings */,
 				061F173F18934437003A0C14 /* main.m */,
 				061F174118934437003A0C14 /* HotelCompass-Prefix.pch */,
+				06336BAE18ADA483001CA042 /* Icon.png */,
+				06336BAF18ADA483001CA042 /* Icon@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -335,9 +341,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06336BB018ADA483001CA042 /* Icon.png in Resources */,
 				061F174C18934437003A0C14 /* Images.xcassets in Resources */,
 				061F173E18934437003A0C14 /* InfoPlist.strings in Resources */,
 				061F174718934437003A0C14 /* Main.storyboard in Resources */,
+				06336BB118ADA483001CA042 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
