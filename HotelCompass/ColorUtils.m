@@ -19,7 +19,6 @@
         @[[UIColor iOS7magentaGradientStartColor], [UIColor iOS7magentaGradientEndColor]],
         @[[UIColor iOS7orangeGradientStartColor], [UIColor iOS7orangeGradientEndColor]],
         @[[UIColor iOS7redGradientStartColor], [UIColor iOS7redGradientEndColor]],
-        @[[UIColor iOS7silverGradientStartColor], [UIColor iOS7tealGradientEndColor]],
         @[[UIColor iOS7tealGradientStartColor], [UIColor iOS7tealGradientEndColor]],
         @[[UIColor iOS7violetGradientStartColor], [UIColor iOS7violetGradientEndColor]],
         @[[UIColor iOS7yellowGradientStartColor], [UIColor iOS7yellowGradientEndColor]]]
