@@ -46,14 +46,22 @@
 
 #pragma mark - Public
 
-- (void)setSchemeColor:(UIColor *)schemeColor {
-    NSArray *schemeColors = [schemeColor colorSchemeOfType:ColorSchemeMonochromatic];
+- (void)setPrimaryColor:(UIColor *)primaryColor andSecondaryColor:(UIColor *)secondaryColor {
     
-    _nameLabel.textColor = [schemeColors objectAtIndex:0];
-    _addressLabel.textColor = [schemeColors objectAtIndex:1];
-    _distanceLabel.textColor = [schemeColors objectAtIndex:3];
+    // primary colors.
+    NSArray *primarySchemeColors = [primaryColor colorSchemeOfType:ColorSchemeMonochromatic];
+    _nameLabel.textColor = [primarySchemeColors objectAtIndex:0];
+    _addressLabel.textColor = [primarySchemeColors objectAtIndex:1];
+    _distanceLabel.textColor = [primarySchemeColors objectAtIndex:3];
     
-    _compassView.schemeColor = schemeColor;
+    // highlighted colors.
+    NSArray *secondarySchemeColors = [secondaryColor colorSchemeOfType:ColorSchemeMonochromatic];
+    _nameLabel.highlightedTextColor = [secondarySchemeColors objectAtIndex:0];
+    _addressLabel.highlightedTextColor = [secondarySchemeColors objectAtIndex:1];
+    _distanceLabel.highlightedTextColor = [secondarySchemeColors objectAtIndex:3];
+    
+    // propagate color changes to compass view.
+    _compassView.schemeColor = primaryColor;
     [_compassView setNeedsDisplay];
 }
 

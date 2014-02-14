@@ -26,7 +26,17 @@ static const int kBackgroundOffset = 2;
 
 #pragma mark - Private
 
-- (void)drawBackground:(CGRect)rect {
+- (void)drawCompassBackground:(CGRect)rect withColor:(UIColor *)color {
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    
+    const CGFloat *comp = CGColorGetComponents(color.CGColor);
+    
+    CGContextAddArc(ctx, center.x, center.y, width / 2, 0, 30, 0);
+    CGContextSetRGBFillColor(ctx, comp[0], comp[1], comp[2], comp[3]);
+    CGContextDrawPath(ctx, kCGPathFill);
+}
+
+- (void)drawArrowBackground:(CGRect)rect {
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     
     CGContextBeginPath(ctx);
@@ -65,17 +75,19 @@ static const int kBackgroundOffset = 2;
     NSArray *colors = [_schemeColor colorSchemeOfType:ColorSchemeAnalagous];
     
     // draw.
-    [self drawBackground:rect];
+    [self drawCompassBackground:rect withColor:[colors objectAtIndex:2]];
+    [self drawArrowBackground:rect];
     [self drawArrow:rect fromCenter:center.x - (center.x * kCenterOffset) + kBackgroundOffset
           withColor:[colors objectAtIndex:0]];
     [self drawArrow:rect fromCenter:center.x + (center.x * kCenterOffset) - kBackgroundOffset
           withColor:[colors objectAtIndex:1]];
     
-    // circle.
+    // compass dark circle.
     CGContextAddArc(ctx, center.x, center.y, center.x * kCenterOffset * .55, 0, 30, 0);
     CGContextSetRGBFillColor(ctx, 0, 0, 0, 1);
     CGContextDrawPath(ctx, kCGPathFill);
     
+    // compass white circle.
     CGContextAddArc(ctx, center.x, center.y, center.x * kCenterOffset * .40, 0, 30, 0);
     CGContextSetRGBFillColor(ctx, 1, 1, 1, 1);
     CGContextDrawPath(ctx, kCGPathFill);

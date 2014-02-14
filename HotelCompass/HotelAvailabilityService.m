@@ -10,7 +10,7 @@
 #import "BookingRequestManager.h"
 
 static NSString* const kServiceURL = @"/json/bookings.getHotelAvailabilityMobile";
-static int const kRequestNumberRows = 25;
+static int const kRequestNumberRows = 20;
 
 @implementation HotelAvailabilityService
 

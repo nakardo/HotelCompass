@@ -46,7 +46,8 @@
                           andSecondaryGradient:(NSArray *)secondaryGradient
 {
     // primary colors.
-    [cell setSchemeColor:[primaryGradient objectAtIndex:row]];
+    [cell setPrimaryColor:[primaryGradient objectAtIndex:row]
+        andSecondaryColor:[secondaryGradient objectAtIndex:row]];
     cell.backgroundColor = [primaryGradient objectAtIndex:row];
     
     // secondary colors.
