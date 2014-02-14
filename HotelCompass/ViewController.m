@@ -120,6 +120,11 @@
     self.secondaryGradient = tmpSecondaryGradient;
 }
 
+- (void)didPressGithubButton {
+    NSURL *url = [NSURL URLWithString:@"https://github.com/dmacosta/HotelCompass"];
+    [[UIApplication sharedApplication] openURL:url];
+}
+
 #pragma mark - UIViewController
 
 - (void)viewDidLoad
@@ -128,8 +133,17 @@
     
     self.navigationItem.title = @"Hotels Nearby";
     
+    // add github button.
+    UIBarButtonItem *githubButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"github"]
+                                                                     style:UIBarButtonItemStylePlain
+                                                                    target:self
+                                                                    action:@selector(didPressGithubButton)];
+    self.navigationItem.rightBarButtonItem = githubButton;
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
+    
     self.hotels = [NSArray array];
     
+    // setup layout.
     _tableView.backgroundView = nil;
     _tableView.backgroundColor = [UIColor blackColor];
     _tableView.separatorColor = [UIColor blackColor];
