@@ -14,7 +14,8 @@
 
 #pragma mark - Public
 
-- (IBAction)didPressShowInBookingButton:(id)sender {
+- (IBAction)didPressShowInBookingButton:(id)sender
+{
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_hotel.url]];
 }
 

@@ -26,7 +26,8 @@ static const int kBackgroundOffset = 2;
 
 #pragma mark - Private
 
-- (void)drawCompassBackground:(CGRect)rect withColor:(UIColor *)color {
+- (void)drawCompassBackground:(CGRect)rect withColor:(UIColor *)color
+{
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     
     const CGFloat *comp = CGColorGetComponents(color.CGColor);
@@ -36,7 +37,8 @@ static const int kBackgroundOffset = 2;
     CGContextDrawPath(ctx, kCGPathFill);
 }
 
-- (void)drawArrowBackground:(CGRect)rect {
+- (void)drawArrowBackground:(CGRect)rect
+{
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     
     CGContextBeginPath(ctx);
@@ -48,7 +50,8 @@ static const int kBackgroundOffset = 2;
     CGContextFillPath(ctx);
 }
 
-- (void)drawArrow:(CGRect)rect fromCenter:(float)distance withColor:(UIColor *)color {
+- (void)drawArrow:(CGRect)rect fromCenter:(float)distance withColor:(UIColor *)color
+{
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     
     const CGFloat *comp = CGColorGetComponents(color.CGColor);

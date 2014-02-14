@@ -16,7 +16,8 @@ static int const kRequestNumberRows = 20;
 
 #pragma mark - Private
 
-+ (NSDictionary *)requestParams:(CLLocation *)currentLocation {
++ (NSDictionary *)requestParams:(CLLocation *)currentLocation
+{
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     
     [params setObject:[NSNumber numberWithDouble:currentLocation.coordinate.latitude] forKey:@"latitude"];
@@ -41,7 +42,8 @@ static int const kRequestNumberRows = 20;
 
 #pragma mark - Initialization
 
-- (HotelAvailabilityService *)initWithDelegate:(id<HotelAvailabilityServiceDelegate>)aDelegate {
+- (HotelAvailabilityService *)initWithDelegate:(id<HotelAvailabilityServiceDelegate>)aDelegate
+{
     if ((self = [super init])) {
         self.delegate = aDelegate;
     }

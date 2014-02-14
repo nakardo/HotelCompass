@@ -31,7 +31,8 @@
     return [[colorSet allObjects] objectAtIndex:arc4random() % [colorSet count]];
 }
 
-+ (NSArray *)generateGradientColors {
++ (NSArray *)generateGradientColors
+{
     return [self generateGradientColorsAndExclude:nil];
 }
 
@@ -40,8 +41,8 @@
  */
 + (NSArray *)generateGradientFromColor:(UIColor *)fromColor
                                toColor:(UIColor *)toColor
-                             withSteps:(NSInteger)steps {
-    
+                             withSteps:(NSInteger)steps
+{    
     CGFloat tmpImageWidth = 512.0f; // make this bigger or smaller if you need more or less resolution (number of different colors).
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     

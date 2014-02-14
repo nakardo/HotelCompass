@@ -17,7 +17,8 @@
 #pragma mark - Private
 
 - (double)calculateAngleFromCurrentLocation:(CLLocationCoordinate2D)current
-                                 toLocation:(CLLocationCoordinate2D)fixed {
+                                 toLocation:(CLLocationCoordinate2D)fixed
+{
     double longitude = fixed.longitude - current.longitude;
     
     double y = sin(longitude) * cos(fixed.latitude);
@@ -28,14 +29,16 @@
     return degrees < 0 ? degrees = -degrees : 360 - degrees;
 }
 
-- (void)updateLocation:(NSNotification *)notification {
+- (void)updateLocation:(NSNotification *)notification
+{
     NSDictionary *info = notification.userInfo;
     if ([info objectForKey:@"location"] != nil) {
         self.location = (CLLocation *)[info objectForKey:@"location"];
     }
 }
 
-- (void)updateHeading:(NSNotification *)notification {
+- (void)updateHeading:(NSNotification *)notification
+{
     
     // make sure we've a location already since it's required to calculate heading direction.
     NSDictionary *info = notification.userInfo;
@@ -46,8 +49,8 @@
 
 #pragma mark - Public
 
-- (void)setPrimaryColor:(UIColor *)primaryColor andSecondaryColor:(UIColor *)secondaryColor {
-    
+- (void)setPrimaryColor:(UIColor *)primaryColor andSecondaryColor:(UIColor *)secondaryColor
+{
     // primary colors.
     NSArray *primarySchemeColors = [primaryColor colorSchemeOfType:ColorSchemeMonochromatic];
     _nameLabel.textColor = [primarySchemeColors objectAtIndex:0];
@@ -67,7 +70,8 @@
 
 #pragma mark - NSObject
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
     if ((self = [super initWithCoder:aDecoder])) {
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(updateLocation:)
@@ -84,14 +88,16 @@
 
 #pragma mark - Overriden Properties
 
-- (void)setHotel:(Hotel *)hotel {
+- (void)setHotel:(Hotel *)hotel
+{
     _hotel = hotel;
     
     _nameLabel.text = hotel.hotelName;
     _addressLabel.text = hotel.address;
 }
 
-- (void)setLocation:(CLLocation *)location {
+- (void)setLocation:(CLLocation *)location
+{
     _location = location;
     
     CLLocationDistance distance = [_location distanceFromLocation:[_hotel location]];
@@ -102,7 +108,8 @@
     }
 }
 
-- (void)setHeading:(CLHeading *)heading {
+- (void)setHeading:(CLHeading *)heading
+{
     CLLocationCoordinate2D toLocation = { _hotel.latitude, _hotel.longitude };
     double degrees = [self calculateAngleFromCurrentLocation:_location.coordinate
                                                   toLocation:toLocation];

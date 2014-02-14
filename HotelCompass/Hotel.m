@@ -10,7 +10,8 @@
 
 @implementation Hotel
 
-- (CLLocation *)location {
+- (CLLocation *)location
+{
     return [[CLLocation alloc] initWithLatitude:_latitude longitude:_longitude];
 }
 
