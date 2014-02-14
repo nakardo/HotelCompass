@@ -12,6 +12,7 @@
 #import "Colours.h"
 #import "ColorUtils.h"
 #import "DetailViewController.h"
+#import "UIImage+animatedGIF.h"
 
 @interface ViewController ()
 
@@ -23,6 +24,7 @@
 @property(nonatomic, strong) NSArray *primaryGradient;
 @property(nonatomic, strong) NSArray *secondaryColors;
 @property(nonatomic, strong) NSArray *secondaryGradient;
+@property(nonatomic, strong) UIView *nyanView;
 
 @end
 
@@ -30,7 +32,8 @@
 
 #pragma mark - Private
 
-- (void)startUpdatingLocation {
+- (void)startUpdatingLocation
+{
     self.locationManager = [[CLLocationManager alloc] init];
 	_locationManager.delegate = self;
     
@@ -55,7 +58,8 @@
     cell.selectedBackgroundView.backgroundColor = [secondaryGradient objectAtIndex:row];
 }
 
-- (void)performRowsAnimation {
+- (void)performRowsAnimation
+{
     NSIndexPath *indexPath = [_tableView indexPathForSelectedRow];
     
     // generate temporary secondary colors to keep animation consistent.
@@ -66,7 +70,7 @@
     
     // set new color for selected row, and remove selection inmediately.
     HotelCell *selectedCell = (HotelCell *)[_tableView cellForRowAtIndexPath:indexPath];
-    [self updateRow:selectedCell atPosition:indexPath.row
+    [self updateRow:selectedCell atPosition:indexPath.row - 1
                         withPrimaryGradient:_secondaryGradient
                        andSecondaryGradient:tmpSecondaryGradient];
     [_tableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -85,7 +89,7 @@
         
         // top row.
         HotelCell *bottomCell = nil;
-        if (indexPath.row + i < [_hotels count]) {
+        if (indexPath.row + i < [_hotels count] + 1) {
             NSIndexPath *idx = [NSIndexPath indexPathForRow:indexPath.row + i inSection:indexPath.section];
             bottomCell = (HotelCell *)[_tableView cellForRowAtIndexPath:idx];
         }
@@ -96,13 +100,13 @@
                             options:UIViewAnimationOptionBeginFromCurrentState|UIViewAnimationOptionCurveEaseOut
                          animations:^{
                              if (topCell != nil) {
-                                 [self updateRow:topCell atPosition:indexPath.row - i
+                                 [self updateRow:topCell atPosition:indexPath.row - 1 - i
                                                 withPrimaryGradient:_secondaryGradient
                                                andSecondaryGradient:tmpSecondaryGradient];
                              }
                              
                              if (bottomCell != nil) {
-                                 [self updateRow:bottomCell atPosition:indexPath.row + i
+                                 [self updateRow:bottomCell atPosition:indexPath.row - 1 + i
                                                    withPrimaryGradient:_secondaryGradient
                                                   andSecondaryGradient:tmpSecondaryGradient];
                              }
@@ -120,9 +124,25 @@
     self.secondaryGradient = tmpSecondaryGradient;
 }
 
-- (void)didPressGithubButton {
+- (void)didPressGithubButton
+{
     NSURL *url = [NSURL URLWithString:@"https://github.com/dmacosta/HotelCompass"];
     [[UIApplication sharedApplication] openURL:url];
+}
+
+- (UIView *)createNyanView
+{
+    NSURL *imageURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"nyan_cat" ofType:@"gif"]];
+    UIImage *nyanImage = [UIImage animatedImageWithAnimatedGIFURL:imageURL];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:nyanImage];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 48, screenSize.width, screenSize.height)];
+    [containerView addSubview:imageView];
+    
+    return containerView;
 }
 
 #pragma mark - UIViewController
@@ -143,6 +163,10 @@
     
     self.hotels = [NSArray array];
     
+    // nyan nyan nyan.
+    self.nyanView = [self createNyanView];
+    [_tableView setContentInset:UIEdgeInsetsMake(-[UIScreen mainScreen].bounds.size.height, 0, 0, 0)];
+    
     // setup layout.
     _tableView.backgroundView = nil;
     _tableView.backgroundColor = [UIColor blackColor];
@@ -151,7 +175,8 @@
     [self startUpdatingLocation];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     if ([_hotels count] > 0) [self performRowsAnimation];
 }
 
@@ -161,10 +186,11 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
     DetailViewController *controller = [segue destinationViewController];
     
-    NSInteger row = [_tableView indexPathForSelectedRow].row;
+    NSInteger row = [_tableView indexPathForSelectedRow].row - 1;
     controller.hotel = [_hotels objectAtIndex:row];
     controller.primaryColor = [_primaryGradient objectAtIndex:row];
     controller.secondaryColor = [_secondaryGradient objectAtIndex:row];
@@ -174,28 +200,49 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HotelCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HotelCell"];
+    UITableViewCell *cell = nil;
     
-    // content.
-    cell.hotel = [_hotels objectAtIndex:indexPath.row];
-    cell.location = _location;
-    cell.heading = _heading;
-    
-    // update colors.
-    [self updateRow:cell atPosition:indexPath.row
-                withPrimaryGradient:_primaryGradient
-               andSecondaryGradient:_secondaryGradient];
+    if (indexPath.row == 0) {
+        UITableViewCell *nyanCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                           reuseIdentifier:nil];
+        nyanCell.backgroundColor = [UIColor clearColor];
+        [nyanCell addSubview:_nyanView];
+        
+        cell = nyanCell;
+    } else {
+        HotelCell *hotelCell = [tableView dequeueReusableCellWithIdentifier:@"HotelCell"];
+        
+        NSUInteger row = indexPath.row - 1;
+        
+        // content.
+        hotelCell.hotel = [_hotels objectAtIndex:row];
+        hotelCell.location = _location;
+        hotelCell.heading = _heading;
+        
+        // update colors.
+        [self updateRow:hotelCell atPosition:row
+                         withPrimaryGradient:_primaryGradient
+                        andSecondaryGradient:_secondaryGradient];
+        
+        cell = hotelCell;
+    }
     
     return cell;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_hotels count];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [_hotels count] + 1;
 }
 
 #pragma mark - UITableViewDelegate
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 0) {
+        return [[UIScreen mainScreen] bounds].size.height;
+    }
+    
     return 122.0;
 }
 
