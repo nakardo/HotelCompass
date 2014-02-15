@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		060F521B18AF0905004FC603 /* NyanView.m in Sources */ = {isa = PBXBuildFile; fileRef = 060F521A18AF0905004FC603 /* NyanView.m */; };
 		061F173418934437003A0C14 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 061F173318934437003A0C14 /* Foundation.framework */; };
 		061F173618934437003A0C14 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 061F173518934437003A0C14 /* CoreGraphics.framework */; };
 		061F173818934437003A0C14 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 061F173718934437003A0C14 /* UIKit.framework */; };
@@ -50,6 +51,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		060F521918AF0905004FC603 /* NyanView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NyanView.h; sourceTree = "<group>"; };
+		060F521A18AF0905004FC603 /* NyanView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NyanView.m; sourceTree = "<group>"; };
 		061F173018934437003A0C14 /* HotelCompass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HotelCompass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		061F173318934437003A0C14 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		061F173518934437003A0C14 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -228,6 +231,8 @@
 				061F176C1893473C003A0C14 /* CompassView.m */,
 				061F1768189346A6003A0C14 /* HotelCell.h */,
 				061F1769189346A6003A0C14 /* HotelCell.m */,
+				060F521918AF0905004FC603 /* NyanView.h */,
+				060F521A18AF0905004FC603 /* NyanView.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -412,6 +417,7 @@
 				061F174018934437003A0C14 /* main.m in Sources */,
 				069F16E3189570DE00ED0E4A /* Hotel.m in Sources */,
 				061F176D1893473C003A0C14 /* CompassView.m in Sources */,
+				060F521B18AF0905004FC603 /* NyanView.m in Sources */,
 				06336BA718AD47DD001CA042 /* DetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

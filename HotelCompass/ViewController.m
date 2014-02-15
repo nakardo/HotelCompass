@@ -12,50 +12,45 @@
 #import "Colours.h"
 #import "ColorUtils.h"
 #import "DetailViewController.h"
-#import "UIImage+animatedGIF.h"
+#import "NyanView.h"
 
-@interface ViewController ()
-
-@property(nonatomic, strong) CLLocationManager *locationManager;
-@property(nonatomic, strong) CLLocation *location;
-@property(nonatomic, strong) CLHeading *heading;
-@property(nonatomic, strong) NSArray *hotels;
-@property(nonatomic, strong) NSArray *primaryColors;
-@property(nonatomic, strong) NSArray *primaryGradient;
-@property(nonatomic, strong) NSArray *secondaryColors;
-@property(nonatomic, strong) NSArray *secondaryGradient;
-@property(nonatomic, strong) UIView *nyanView;
-
-@end
-
-@implementation ViewController
+@implementation ViewController {
+    CLLocationManager *locationManager;
+    CLLocation *location;
+    CLHeading *heading;
+    NSArray *hotels;
+    NSArray *primaryGradient;
+    NSArray *secondaryColors;
+    NSArray *secondaryGradient;
+    UIView *nyanView;
+}
 
 #pragma mark - Private
 
 - (void)startUpdatingLocation
 {
-    self.locationManager = [[CLLocationManager alloc] init];
-	_locationManager.delegate = self;
+    locationManager = [[CLLocationManager alloc] init];
+	locationManager.delegate = self;
     
-    _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    _locationManager.distanceFilter = kCLDistanceFilterNone;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    locationManager.distanceFilter = kCLDistanceFilterNone;
     
-    [_locationManager startUpdatingLocation];
-	[_locationManager startUpdatingHeading];
+    [locationManager startUpdatingLocation];
+	[locationManager startUpdatingHeading];
 }
 
 - (void)updateRow:(HotelCell *)cell atPosition:(NSInteger)row
-                           withPrimaryGradient:(NSArray *)primaryGradient
-                          andSecondaryGradient:(NSArray *)secondaryGradient
+                           withPrimaryGradient:(NSArray *)aPrimaryGradient
+                          andSecondaryGradient:(NSArray *)aSecondaryGradient
 {
     // primary colors.
-    [cell setPrimaryColor:[primaryGradient objectAtIndex:row]
-        andSecondaryColor:[secondaryGradient objectAtIndex:row]];
-    cell.backgroundColor = [primaryGradient objectAtIndex:row];
+    [cell setPrimaryColor:[aPrimaryGradient objectAtIndex:row]
+        andSecondaryColor:[aSecondaryGradient objectAtIndex:row]];
+    cell.backgroundColor = [aPrimaryGradient objectAtIndex:row];
     
     // secondary colors.
     cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.bounds];
-    cell.selectedBackgroundView.backgroundColor = [secondaryGradient objectAtIndex:row];
+    cell.selectedBackgroundView.backgroundColor = [aSecondaryGradient objectAtIndex:row];
 }
 
 - (void)performRowsAnimation
@@ -63,15 +58,15 @@
     NSIndexPath *indexPath = [_tableView indexPathForSelectedRow];
     
     // generate temporary secondary colors to keep animation consistent.
-    NSArray *tmpSecondaryColors = [ColorUtils generateGradientColorsAndExclude:_secondaryColors];
-    NSArray *tmpSecondaryGradient = [ColorUtils generateGradientFromColor:[_secondaryColors objectAtIndex:0]
-                                                                  toColor:[_secondaryColors objectAtIndex:1]
-                                                                withSteps:[_hotels count]];
+    NSArray *tmpSecondaryColors = [ColorUtils generateGradientColorsAndExclude:secondaryColors];
+    NSArray *tmpSecondaryGradient = [ColorUtils generateGradientFromColor:[tmpSecondaryColors objectAtIndex:0]
+                                                                  toColor:[tmpSecondaryColors objectAtIndex:1]
+                                                                withSteps:[hotels count]];
     
     // set new color for selected row, and remove selection inmediately.
     HotelCell *selectedCell = (HotelCell *)[_tableView cellForRowAtIndexPath:indexPath];
     [self updateRow:selectedCell atPosition:indexPath.row - 1
-                        withPrimaryGradient:_secondaryGradient
+                        withPrimaryGradient:secondaryGradient
                        andSecondaryGradient:tmpSecondaryGradient];
     [_tableView deselectRowAtIndexPath:indexPath animated:NO];
     
@@ -89,7 +84,7 @@
         
         // top row.
         HotelCell *bottomCell = nil;
-        if (indexPath.row + i < [_hotels count] + 1) {
+        if (indexPath.row + i < [hotels count] + 1) {
             NSIndexPath *idx = [NSIndexPath indexPathForRow:indexPath.row + i inSection:indexPath.section];
             bottomCell = (HotelCell *)[_tableView cellForRowAtIndexPath:idx];
         }
@@ -101,13 +96,13 @@
                          animations:^{
                              if (topCell != nil) {
                                  [self updateRow:topCell atPosition:indexPath.row - 1 - i
-                                                withPrimaryGradient:_secondaryGradient
+                                                withPrimaryGradient:secondaryGradient
                                                andSecondaryGradient:tmpSecondaryGradient];
                              }
                              
                              if (bottomCell != nil) {
                                  [self updateRow:bottomCell atPosition:indexPath.row - 1 + i
-                                                   withPrimaryGradient:_secondaryGradient
+                                                   withPrimaryGradient:secondaryGradient
                                                   andSecondaryGradient:tmpSecondaryGradient];
                              }
                          }
@@ -117,11 +112,10 @@
     }
     
     // swap colors.
-    self.primaryColors = _secondaryColors;
-    self.primaryGradient = _secondaryGradient;
+    primaryGradient = secondaryGradient;
     
-    self.secondaryColors = tmpSecondaryColors;
-    self.secondaryGradient = tmpSecondaryGradient;
+    secondaryColors = tmpSecondaryColors;
+    secondaryGradient = tmpSecondaryGradient;
 }
 
 - (void)didPressGithubButton
@@ -130,20 +124,6 @@
     [[UIApplication sharedApplication] openURL:url];
 }
 
-- (UIView *)createNyanView
-{
-    NSURL *imageURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"nyan_cat" ofType:@"gif"]];
-    UIImage *nyanImage = [UIImage animatedImageWithAnimatedGIFURL:imageURL];
-    
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:nyanImage];
-    imageView.contentMode = UIViewContentModeScaleAspectFit;
-    
-    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
-    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 48, screenSize.width, screenSize.height)];
-    [containerView addSubview:imageView];
-    
-    return containerView;
-}
 
 #pragma mark - UIViewController
 
@@ -161,10 +141,11 @@
     self.navigationItem.rightBarButtonItem = githubButton;
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
     
-    self.hotels = [NSArray array];
+    hotels = [NSArray array];
     
     // nyan nyan nyan.
-    self.nyanView = [self createNyanView];
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    nyanView = [[NyanView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width, screenSize.height)];
     [_tableView setContentInset:UIEdgeInsetsMake(-[UIScreen mainScreen].bounds.size.height, 0, 0, 0)];
     
     // setup layout.
@@ -177,7 +158,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if ([_hotels count] > 0) [self performRowsAnimation];
+    if ([hotels count] > 0) [self performRowsAnimation];
 }
 
 - (void)didReceiveMemoryWarning
@@ -191,9 +172,9 @@
     DetailViewController *controller = [segue destinationViewController];
     
     NSInteger row = [_tableView indexPathForSelectedRow].row - 1;
-    controller.hotel = [_hotels objectAtIndex:row];
-    controller.primaryColor = [_primaryGradient objectAtIndex:row];
-    controller.secondaryColor = [_secondaryGradient objectAtIndex:row];
+    controller.hotel = [hotels objectAtIndex:row];
+    controller.primaryColor = [primaryGradient objectAtIndex:row];
+    controller.secondaryColor = [secondaryGradient objectAtIndex:row];
 }
 
 #pragma mark - UITableViewDataSource
@@ -206,7 +187,7 @@
         UITableViewCell *nyanCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                            reuseIdentifier:nil];
         nyanCell.backgroundColor = [UIColor clearColor];
-        [nyanCell addSubview:_nyanView];
+        [nyanCell addSubview:nyanView];
         
         cell = nyanCell;
     } else {
@@ -215,14 +196,14 @@
         NSUInteger row = indexPath.row - 1;
         
         // content.
-        hotelCell.hotel = [_hotels objectAtIndex:row];
-        hotelCell.location = _location;
-        hotelCell.heading = _heading;
+        hotelCell.hotel = [hotels objectAtIndex:row];
+        hotelCell.location = location;
+        hotelCell.heading = heading;
         
         // update colors.
         [self updateRow:hotelCell atPosition:row
-                         withPrimaryGradient:_primaryGradient
-                        andSecondaryGradient:_secondaryGradient];
+                         withPrimaryGradient:primaryGradient
+                        andSecondaryGradient:secondaryGradient];
         
         cell = hotelCell;
     }
@@ -232,7 +213,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_hotels count] + 1;
+    return [hotels count] + 1;
 }
 
 #pragma mark - UITableViewDelegate
@@ -252,12 +233,12 @@
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation
 {
-    if ([_hotels count] == 0 && _location == nil) {
+    if ([hotels count] == 0 && location == nil) {
         [[[HotelAvailabilityService alloc] initWithDelegate:self] getHotelsNearby:newLocation];
     }
-    self.location = newLocation;
+    location = newLocation;
     
-    NSDictionary *info = [NSDictionary dictionaryWithObject:_location forKey:@"location"];
+    NSDictionary *info = [NSDictionary dictionaryWithObject:location forKey:@"location"];
     [[NSNotificationCenter defaultCenter] postNotificationName:kLocationUpdatedNotification
                                                         object:nil
                                                       userInfo:info];
@@ -266,9 +247,9 @@
 - (void)locationManager:(CLLocationManager *)manager
        didUpdateHeading:(CLHeading *)newHeading
 {
-    self.heading = newHeading;
+    heading = newHeading;
     
-    NSDictionary *info = [NSDictionary dictionaryWithObject:_heading forKey:@"heading"];
+    NSDictionary *info = [NSDictionary dictionaryWithObject:heading forKey:@"heading"];
     [[NSNotificationCenter defaultCenter] postNotificationName:kHeadingUpdatedNotification
                                                         object:nil
                                                       userInfo:info];
@@ -279,24 +260,24 @@
 - (void)didLoadHotels:(AvailableHotels *)theHotels
 {
     // sort results by distance.
-    self.hotels = [theHotels.result sortedArrayUsingComparator:^NSComparisonResult(id o1, id o2) {
+    hotels = [theHotels.result sortedArrayUsingComparator:^NSComparisonResult(id o1, id o2) {
         CLLocation *l1 = [(Hotel *)o1 location], *l2 = [(Hotel *)o2 location];
         
-        CLLocationDistance d1 = [l1 distanceFromLocation:_location];
-        CLLocationDistance d2 = [l2 distanceFromLocation:_location];
+        CLLocationDistance d1 = [l1 distanceFromLocation:location];
+        CLLocationDistance d2 = [l2 distanceFromLocation:location];
         return d1 < d2 ? NSOrderedAscending : d1 > d2 ? NSOrderedDescending : NSOrderedSame;
     }];
     
     // generate random gradient using ios7 theme.
-    self.primaryColors = [ColorUtils generateGradientColors];
-    self.primaryGradient = [ColorUtils generateGradientFromColor:[_primaryColors objectAtIndex:0]
-                                                         toColor:[_primaryColors objectAtIndex:1]
-                                                       withSteps:[_hotels count]];
+    NSArray *primaryColors = [ColorUtils generateGradientColors];
+    primaryGradient = [ColorUtils generateGradientFromColor:[primaryColors objectAtIndex:0]
+                                                         toColor:[primaryColors objectAtIndex:1]
+                                                       withSteps:[hotels count]];
     
-    self.secondaryColors = [ColorUtils generateGradientColorsAndExclude:_primaryColors];
-    self.secondaryGradient = [ColorUtils generateGradientFromColor:[_secondaryColors objectAtIndex:0]
-                                                           toColor:[_secondaryColors objectAtIndex:1]
-                                                         withSteps:[_hotels count]];
+    secondaryColors = [ColorUtils generateGradientColorsAndExclude:primaryColors];
+    secondaryGradient = [ColorUtils generateGradientFromColor:[secondaryColors objectAtIndex:0]
+                                                           toColor:[secondaryColors objectAtIndex:1]
+                                                         withSteps:[hotels count]];
     
     // we're done.
     [_activityIndicator stopAnimating];
