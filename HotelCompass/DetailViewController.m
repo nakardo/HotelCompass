@@ -25,7 +25,7 @@
     }
     
     [_mapView setVisibleMapRect:zoomRect
-                    edgePadding:UIEdgeInsetsMake(75, 75, 75, 75)
+                    edgePadding:UIEdgeInsetsMake(100, 100, 100, 100)
                        animated:NO];
 }
 
