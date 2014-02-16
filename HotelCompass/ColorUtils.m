@@ -64,8 +64,7 @@
     // Get our RGB bytes into a buffer with a couple of intermediate steps...
     //      CGImageRef -> CFDataRef -> byte array
     CGImageRef cgImage = CGBitmapContextCreateImage(context);
-    CGDataProviderRef provider = CGImageGetDataProvider(cgImage);
-    CFDataRef pixelData = CGDataProviderCopyData(provider);
+    NSData *pixelData = (__bridge_transfer NSData *)CGDataProviderCopyData(CGImageGetDataProvider(cgImage));
     
     // cleanup:
     CGGradientRelease(gradient);
@@ -73,7 +72,7 @@
     CGImageRelease(cgImage);
     CGContextRelease(context);
     
-    const UInt8* data = CFDataGetBytePtr(pixelData);
+    const UInt8* data = (Byte *)[pixelData bytes];
     
     // we got all the data we need.
     // bytes in the data buffer are a succession of R G B A bytes
@@ -90,9 +89,6 @@
                                          alpha:data[pixelIndex + 3]/255.0f];
         [theColors addObject:color];
     }
-    
-    // done fetching color data, finally release the buffer
-    CGDataProviderRelease(provider);
     
     return theColors;
 }
