@@ -12,6 +12,23 @@
 
 @implementation DetailViewController
 
+#pragma mark - Private
+
+- (void)updateMapViewRegion {
+    MKMapPoint annotationPoint = MKMapPointForCoordinate(_location.coordinate);
+    
+    MKMapRect zoomRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0.1, 0.1);
+    for (id <MKAnnotation> annotation in _mapView.annotations) {
+        MKMapPoint annotationPoint = MKMapPointForCoordinate(annotation.coordinate);
+        MKMapRect pointRect = MKMapRectMake(annotationPoint.x, annotationPoint.y, 0.1, 0.1);
+        zoomRect = MKMapRectUnion(zoomRect, pointRect);
+    }
+    
+    [_mapView setVisibleMapRect:zoomRect
+                    edgePadding:UIEdgeInsetsMake(75, 75, 75, 75)
+                       animated:NO];
+}
+
 #pragma mark - Public
 
 - (IBAction)didPressShowInBookingButton:(id)sender
@@ -42,9 +59,7 @@
     [_mapView addAnnotation:annotation];
     [_mapView selectAnnotation:annotation animated:YES];
     
-    MKCoordinateRegion region = [_mapView regionThatFits:MKCoordinateRegionMakeWithDistance(location, 300, 300)];
-    [_mapView setRegion:region animated:YES];
-    _mapView.showsUserLocation = YES;
+    [self updateMapViewRegion];
 }
 
 - (void)didReceiveMemoryWarning

@@ -172,6 +172,7 @@
     DetailViewController *controller = [segue destinationViewController];
     
     NSInteger row = [_tableView indexPathForSelectedRow].row - 1;
+    controller.location = location;
     controller.hotel = [hotels objectAtIndex:row];
     controller.primaryColor = [primaryGradient objectAtIndex:row];
     controller.secondaryColor = [secondaryGradient objectAtIndex:row];

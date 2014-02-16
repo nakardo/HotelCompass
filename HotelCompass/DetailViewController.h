@@ -10,8 +10,9 @@
 #import <MapKit/MapKit.h>
 #import "Hotel.h"
 
-@interface DetailViewController : UIViewController
+@interface DetailViewController : UIViewController<CLLocationManagerDelegate>
 
+@property(nonatomic, weak) CLLocation *location;
 @property(nonatomic, strong) Hotel *hotel;
 @property(nonatomic, strong) UIColor *primaryColor;
 @property(nonatomic, strong) UIColor *secondaryColor;
