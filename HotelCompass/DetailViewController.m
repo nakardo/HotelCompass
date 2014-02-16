@@ -44,6 +44,7 @@
     
     MKCoordinateRegion region = [_mapView regionThatFits:MKCoordinateRegionMakeWithDistance(location, 300, 300)];
     [_mapView setRegion:region animated:YES];
+    _mapView.showsUserLocation = YES;
 }
 
 - (void)didReceiveMemoryWarning
