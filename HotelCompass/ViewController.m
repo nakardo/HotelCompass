@@ -187,6 +187,7 @@
     if (indexPath.row == 0) {
         UITableViewCell *nyanCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                            reuseIdentifier:nil];
+        nyanCell.selectionStyle = UITableViewCellSelectionStyleNone;
         nyanCell.backgroundColor = [UIColor clearColor];
         [nyanCell addSubview:nyanView];
         
