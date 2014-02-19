@@ -19,7 +19,7 @@ It's important after initial setup to always open `HotelCompass.xcworkspace` fil
 
 As Booking.com API is currently private and authenticated, you'll have to figure out how to get the credentials to have access to it. These are not distributed along the code since it might result on the violation on some of their policies, but they should be placed on `Settings.h` file.
 
-Licence
+License
 =======
 
     The MIT License (MIT)
